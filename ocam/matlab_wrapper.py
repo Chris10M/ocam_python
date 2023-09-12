@@ -117,9 +117,12 @@ def convert_intrinsics_to_matlab_cli():
 
     output_path = args.output
 
-    intrinsics = convert_intrinsics_to_matlab(args.intrinsics)
+    with open(args.intrinsics, 'r') as f:
+        intrinsics = json.load(f)
+
+    intrinsics = convert_intrinsics_to_matlab(intrinsics)
     eng.workspace['fisheye_intrinsics'] = intrinsics
-    eng.save(output_path, 'fisheye_intrinsics')
+    eng.save(output_path, 'fisheye_intrinsics', nargout=0)
 
     print('Saved to', output_path)
 
