@@ -22,8 +22,8 @@ The conversion scripts for MATLAB intrinsics to JSON intrinsics and JSON to MATL
 # Usage
 ## Command Line
 ```
-convert_intrinsics_to_matlab_cli path/to/fisheye_intrincis.json # output: path/to/fisheye_intrincis.mat
-convert_matlab_to_intrincis_cli path/to/fisheye_intrincis.mat # output: path/to/fisheye_intrincis.json
+convert_intrinsics_to_matlab_fisheye path/to/fisheye_intrincis.json # output: path/to/fisheye_intrincis.mat
+convert_matlab_to_intrincis_fisheye path/to/fisheye_intrincis.mat # output: path/to/fisheye_intrincis.json
 ```
 
 ## Minimal usage script
