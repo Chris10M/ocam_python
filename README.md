@@ -26,6 +26,8 @@ convert_intrinsics_to_matlab_fisheye path/to/fisheye_intrincis.json # output: pa
 convert_matlab_to_intrincis_fisheye path/to/fisheye_intrincis.mat # output: path/to/fisheye_intrincis.json
 ```
 
+The *fisheye_intrincis.mat* can be obtained by following the instructions [here](https://de.mathworks.com/help/vision/ug/fisheye-calibration-basics.html) or using the [Camera Calibration App](https://de.mathworks.com/help/vision/ug/using-the-single-camera-calibrator-app.html). I would recommend to go with the later as it is very easy.
+
 ## Minimal usage script
 ```
 import ocam
