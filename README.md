@@ -7,7 +7,7 @@ This is purely numpy implementation of the projection functions of the Scaramuzz
 
 Clone the repsitory and install
 ```
-https://github.com/Chris10M/ocamcalib_python.git
+git clone https://github.com/Chris10M/ocamcalib_python.git
 cd ocamcalib_python
 python -m pip install .                  
 ```
