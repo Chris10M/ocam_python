@@ -55,15 +55,22 @@ def convert_matlab_to_intrincis(intrinsics):
 
     pol = [MappingCoefficients[0], 0, MappingCoefficients[1], MappingCoefficients[2], MappingCoefficients[3]]
 
+    width = int(ImageSize[1])
+    height = int(ImageSize[0])
+    xc = DistortionCenter[0]
+    yc = DistortionCenter[1]
+
     camera_params = {
         'pol': pol,
-        'width': int(ImageSize[1]),
-        'height': int(ImageSize[0]),
-        'xc': DistortionCenter[0],
-        'yc': DistortionCenter[1],
+        'width': width,
+        'height': height,
+        'xc': xc,
+        'yc': yc,
         'c': StretchMatrix[0, 0],
         'd': StretchMatrix[0, 1],
         'e': StretchMatrix[1, 0],
+        'shift_cx': xc - width / 2,
+        'shift_cy': yc - height / 2,
     }
 
     camera_params = to_ocam_model(camera_params)
