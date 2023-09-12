@@ -1,6 +1,7 @@
 import numpy as np
 import matlab.engine
 import matlab
+import json
 import argparse
 
 from preprocess_ocam_json import to_ocam_model
@@ -107,14 +108,20 @@ def convert_intrinsics_to_matlab_cli():
 
     # Add command-line arguments for input parameters
     parser.add_argument('intrinsics', type=str, help='Path to intrinsics.JSON')
+    parser.add_argument('--output', type=str, default=None, help='Path to .mat save file')
 
     args = parser.parse_args()
     
-    output_path = args.intrinsics.replace('.json', '.mat')    
+    if args.output is None:
+        args.output = args.intrinsics.replace('.json', '.mat')    
+
+    output_path = args.output
 
     intrinsics = convert_intrinsics_to_matlab(args.intrinsics)
     eng.workspace['fisheye_intrinsics'] = intrinsics
     eng.save(output_path, 'fisheye_intrinsics')
+
+    print('Saved to', output_path)
 
 
 def convert_matlab_to_intrincis_cli():
@@ -122,10 +129,19 @@ def convert_matlab_to_intrincis_cli():
 
     # Add command-line arguments for input parameters
     parser.add_argument('intrinsics', type=str, help='Path to intrinsics.mat')
+    parser.add_argument('--output', type=str, default=None, help='Path to .JSON save file')
 
     args = parser.parse_args()
     
-    output_path = args.intrinsics.replace('.mat', '.json')    
+    if args.output is None:
+        args.output = args.intrinsics.replace('.mat', '.json')
+
+    output_path = args.output
 
     intrinsics = convert_matlab_to_intrincis(args.intrinsics)
-    to_ocam_model(intrinsics, output_path)
+    to_ocam_model(intrinsics)   
+
+    with open(output_path, 'w') as f:
+        json.dump(intrinsics, f, indent=4)
+
+    print('Saved to', output_path)
