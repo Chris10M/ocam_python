@@ -35,7 +35,11 @@ def convert_intrinsics_to_matlab(ocam_model):
 def convert_matlab_to_intrincis(intrinsics):
     if isinstance(intrinsics, str):
         content = eng.load(intrinsics, nargout=1)
-        eng.workspace['fisheye_intrinsics'] = content['fisheye_intrinsics']
+
+        if eng.isfield(content, 'fisheye_intrinsics', nargout=1):
+            eng.workspace['fisheye_intrinsics'] = content['fisheye_intrinsics']
+        else:
+            eng.workspace['fisheye_intrinsics'] = content
     else:
         eng.workspace['fisheye_intrinsics'] = intrinsics
 
@@ -66,6 +70,19 @@ def convert_matlab_to_intrincis(intrinsics):
 
     return camera_params
 
+
+def load_matlab_intrinsics(intrinsics):
+    if isinstance(intrinsics, str):
+        content = eng.load(intrinsics, nargout=1)
+        
+        if eng.isfield(content, 'fisheye_intrinsics', nargout=1):
+            eng.workspace['fisheye_intrinsics'] = content['fisheye_intrinsics']
+        else:
+            eng.workspace['fisheye_intrinsics'] = content
+
+        return eng.workspace['fisheye_intrinsics']
+
+    assert "Give path to intrinsics.mat file"
 
 
 def project_fisheye_points(object_points, intrinsics_mat, tform=eng.rigidtform3d()):

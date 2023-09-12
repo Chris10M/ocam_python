@@ -13,8 +13,8 @@ setup(
     install_requires=requires,
     entry_points={
         'console_scripts': [
-            'convert_intrinsics_to_matlab_cli = ocam.matlab_wrapper:convert_intrinsics_to_matlab_cli',
-            'convert_matlab_to_intrincis_cli = ocam.matlab_wrapper:convert_matlab_to_intrincis_cli',
+            'convert_intrinsics_to_matlab_fisheye = ocam.matlab_wrapper:convert_intrinsics_to_matlab_cli',
+            'convert_matlab_to_intrincis_fisheye = ocam.matlab_wrapper:convert_matlab_to_intrincis_cli',
         ],
     },
 )

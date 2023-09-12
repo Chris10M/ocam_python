@@ -1,5 +1,5 @@
 try:
-    from .matlab_wrapper import project_fisheye_points, convert_intrinsics_to_matlab, convert_matlab_to_intrincis
+    from .matlab_wrapper import load_matlab_intrinsics, project_fisheye_points, convert_intrinsics_to_matlab, convert_matlab_to_intrincis
 except ImportError:
     print('Could not import matlab engine. Some functions will not work.')
     
