@@ -82,7 +82,7 @@ def load_matlab_intrinsics(intrinsics):
 
         return eng.workspace['fisheye_intrinsics']
 
-    assert "Give path to intrinsics.mat file"
+    raise TypeError("Give path to intrinsics.mat file")
 
 
 def project_fisheye_points(object_points, intrinsics_mat, tform=eng.rigidtform3d()):
