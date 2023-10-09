@@ -1,6 +1,7 @@
 import ocam
 import numpy as np
 import json
+import torch
 
 # Generate random 3D points (replace this with your actual 3D points)
 num_points = 10  # Number of 3D points
@@ -27,19 +28,35 @@ ocam_calib_model = ocam.to_ocam_model(ocam_calib_json) # or ocam_calib_model = o
 
 
 # Project the 3D points into 2D points using the camera calibration parameters
-points2D = ocam.world2cam_np(points3D, ocam_calib_model)
+points2D_np = ocam.world2cam_np(points3D, ocam_calib_model)
 
 # Print the resulting 2D points
 print("Projected 2D points:")
-print(points2D)
+print(points2D_np)
+
+# Project the 3D points into 2D points using the camera calibration parameters
+points2D_t = ocam.world2cam_torch(torch.from_numpy(points3D), ocam_calib_model)
+
+# Print the resulting 2D points
+print("Projected 2D points:")
+print(points2D_t)
+
 
 # Print the resulting 2D points from MATLAB
 print("Projected 2D points from MATLAB:")
 print(matlab_points2D)
 
+points2D_list = []
+for point3d in points3D[:, 0, :]:
+    point2d = ocam.world2cam(point3d, ocam_calib_model)
+    points2D_list.append(point2d)
+points2D_list = np.array(points2D_list)[..., np.newaxis, :]
+
 # Project 3D points to 2D individually and print
 print("Projected 2D points (individual):")
-for point3d in points3D:
-    point2d = ocam.world2cam(point3d, ocam_calib_model)
-    print(point2d)
+print(points2D_list)
 
+print("Difference between MATLAB and Python:"	)
+print('NUMPY vs MATLAB', points2D_np - matlab_points2D)
+print('NUMPY vs PYTHON', points2D_np - points2D_list)
+print('NUMPY vs TORCH', points2D_np - points2D_t.numpy())

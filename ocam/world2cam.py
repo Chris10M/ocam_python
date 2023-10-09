@@ -1,4 +1,5 @@
 import numpy as np
+import torch
 
 
 def world2cam(point3D, o):
@@ -64,4 +65,42 @@ def world2cam_np(point3D, o):
     points2D[valid_indices, 1] = x * o['e'] + y + o['yc']
 
     return points2D[:, None, :]
+
+
+def world2cam_torch(point3D, o):
+    assert len(point3D.shape) == 3, 'point3D should be a 3D array'
+    assert point3D.shape[1] == 1, 'point3D should be a Nx1x3 array'
+
+    point3D = point3D.to(torch.float32)
+    point3D = point3D[:, 0, :]
+
+    o['length_invpol'] = len(o['invpol'])
+
+    norm = torch.linalg.norm(point3D[:, :2], axis=1)
+
+    points2D = torch.zeros(point3D.shape[0], 2).to(point3D.device).float()
+    points2D[:, 0] = o['xc']
+    points2D[:, 1] = o['yc']
+
+    valid_indices = (norm != 0)
+
+    theta = torch.arctan(point3D[valid_indices, 2] / norm[valid_indices])
+    invnorm = 1.0 / norm[valid_indices]
+    t = theta
+    rho = torch.ones_like(t) * o['invpol'][0]
+    t_i = torch.ones_like(t) * 1.0
+
+    for i in range(1, o['length_invpol']):
+        t_i = t_i * t
+        rho = rho + t_i * o['invpol'][i]
+    
+    x = point3D[valid_indices, 0] * invnorm * rho
+    y = point3D[valid_indices, 1] * invnorm * rho
+    
+    points2D[valid_indices, 0] = x * o['c'] + y * o['d'] + o['xc']
+    points2D[valid_indices, 1] = x * o['e'] + y + o['yc']
+
+    return points2D[:, None, :]
+
+
 
