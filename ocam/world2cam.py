@@ -103,4 +103,17 @@ def world2cam_torch(point3D, o):
     return points2D[:, None, :]
 
 
+def world2cam_torch_batch(point3D_batch, o):
+    assert len(point3D_batch.shape) == 4, 'point3D_batch should be a 4D array'
+    assert point3D_batch.shape[2] == 1, 'point3D_batch should be a BxNx1x3 array'
 
+    B, N, _, _ = point3D_batch.shape
+    
+    point3D_batch = point3D_batch.view(B * N, 1, 3)
+    points2d = world2cam_torch(point3D_batch, o)
+    
+    points2d = points2d.view(B, N, 1, 2)
+
+    return points2d
+    
+    

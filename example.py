@@ -37,10 +37,18 @@ print(points2D_np)
 # Project the 3D points into 2D points using the camera calibration parameters
 points2D_t = ocam.world2cam_torch(torch.from_numpy(points3D), ocam_calib_model)
 
+
 # Print the resulting 2D points
 print("Projected 2D points:")
 print(points2D_t)
 
+points3D_batch = torch.from_numpy(np.concatenate([points3D[None, ...], points3D[None, ...], points3D[None, ...]], axis=0))
+# Project the 3D points into 2D points using the camera calibration parameters
+points2D_tb = ocam.world2cam_torch_batch(points3D_batch, ocam_calib_model)
+
+# Print the resulting 2D points
+print("Projected 2D points:")
+print(points2D_tb)
 
 # Print the resulting 2D points from MATLAB
 print("Projected 2D points from MATLAB:")
@@ -60,3 +68,6 @@ print("Difference between MATLAB and Python:"	)
 print('NUMPY vs MATLAB', points2D_np - matlab_points2D)
 print('NUMPY vs PYTHON', points2D_np - points2D_list)
 print('NUMPY vs TORCH', points2D_np - points2D_t.numpy())
+print('NUMPY vs TORCH_BATCH')
+for points2D_t in points2D_tb.numpy():  
+    print(points2D_np - points2D_t) 
