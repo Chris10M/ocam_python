@@ -1,7 +1,7 @@
 import json
 import numpy as np
 
-from findinvpoly import findinvpoly
+from .findinvpoly import findinvpoly
 
 
 def to_ocam_model(path):
