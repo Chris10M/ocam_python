@@ -17,5 +17,6 @@ except ImportError:
     
 from .world2cam_fast import world2cam_fast
 from .world2cam import world2cam, world2cam_np, world2cam_torch, world2cam_torch_batch
+from .camera2world import camera2world_np
 from .preprocess_ocam_json import to_ocam_model
 
