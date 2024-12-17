@@ -4,7 +4,7 @@ import matlab
 import json
 import argparse
 
-from preprocess_ocam_json import to_ocam_model
+from .preprocess_ocam_json import to_ocam_model
 
 eng = matlab.engine.start_matlab()
 
